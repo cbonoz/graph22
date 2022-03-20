@@ -17,20 +17,28 @@ function App() {
       <Layout>
         <Header className="header">
           <Menu theme="light" mode="horizontal" defaultSelectedKeys={["2"]}>
-            <Menu.Item key="0">
-              <img src={logo} className="header-image" />
-            </Menu.Item>
-            <Menu.Item key="1">Search</Menu.Item>
-            <Menu.Item key="2">Upload</Menu.Item>
+            <Link to="/">
+              <Menu.Item key="0">
+                <img src={logo} className="header-image" />
+              </Menu.Item>
+            </Link>
+            <Link to="/">
+              <Menu.Item key="1">Search</Menu.Item>
+            </Link>
+            <Link to="/upload">
+              <Menu.Item key="2">Upload</Menu.Item>
+            </Link>
           </Menu>
         </Header>
         <Content>
           <Routes>
             <Route path="/" element={<PropertyMap />} />
-            <Route path="about" element={<UploadPage />} />
+            <Route path="/upload" element={<UploadPage />} />
           </Routes>
         </Content>
-        <Footer>{APP_NAME} &copy;2022</Footer>
+        <Footer>
+          {APP_NAME} &copy;2022 - Built for the Tigergraph 2022 Hackathon
+        </Footer>
       </Layout>
     </div>
   );

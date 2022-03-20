@@ -1,5 +1,5 @@
-import { Button } from "antd";
-import React, { useState, useEffect } from "react";
+import { Button, Radio } from "antd";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -8,28 +8,33 @@ import {
   Polyline,
   ZoomControl,
 } from "react-leaflet";
+import { formatMoney, getAverage } from "../util";
+
+import { getPrediction, getProperties } from "../util/api";
+import { FILTER_FIELDS, grayIcon, greenIcon } from "../util/constants";
 
 import "./PropertyMap.css";
+import PropertyView from "./PropertyView";
 
 const lineOptions = { color: "green" };
 
-const getLatLng = (property) => [property.Y, property.X];
+const getLatLng = (property) => [property.lat, property.lng];
+
+//  Create the Icon
 
 export default function PropertyMap() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [result, setResult] = useState();
+  const [activeField, setActiveField] = useState();
   const [loading, setLoading] = useState(false);
-  const [activePrice, setActivePrice] = useState(undefined);
   const [properties, setProperties] = useState([]);
-  const [requesting, setRequesting] = useState(false);
-  const [purchaseResult, setPurchaseResult] = useState(undefined);
+  const [property, setProperty] = useState(); // active property.
   const [error, setError] = useState("");
   const [map, setMap] = useState(null);
 
   const getPrice = async () => {};
 
   const addProperty = (result) => {
-    setResults([]);
     const newProperties = [...properties, result];
     setProperties(newProperties);
     map.flyTo(getLatLng(result), 12);
@@ -39,101 +44,159 @@ export default function PropertyMap() {
     setQuery(null);
   };
 
-  const completePurchase = async () => {};
-
-  const clearProperties = () => {
-    setPurchaseResult(undefined);
-    setActivePrice(undefined);
-    setRequesting(false);
-    setProperties([]);
-    setQuery("");
+  const fetchPrediction = async () => {
+    if (true) {
+      const prediction = formatMoney(
+        getAverage(connectedProperties.map((x) => x.price))
+      );
+      setResult({ prediction });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await getPrediction(property);
+      setResult(res.data);
+    } catch (e) {
+      console.error(e);
+      alert(e.toString());
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const getPropertyName = (p) => p.address || "{Property Address}";
+  const fetchProperties = async () => {
+    setLoading(true);
+    try {
+      const bounds = map.getBounds();
+      const top_right = bounds.getNorthEast();
+      const bottom_left = bounds.getSouthWest();
+      const body = { top_right, bottom_left };
+      const res = await getProperties(body);
+      setProperties(res.data);
+    } catch (e) {
+      console.error(e);
+      alert(e.toString());
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const getPriceForRoute = async () => {};
+  useEffect(() => {
+    setResult(undefined);
+  }, [property]);
 
-  // useEffect(() => {
-  //   if (query) {
-  //     setResults(fuse.search(query));
-  //   } else {
-  //   }
-  // }, [query]);
+  // let inputValue = "";
+  // if (query !== null || query) {
+  //   inputValue = query;
+  // } else if (property) {
+  //   inputValue = `${property.ADDRESS1} ${property.STNNAME}`;
+  // }
 
-  const property = (properties && properties[properties.length - 1]) || {};
+  const position = [42.36, -71.059];
 
-  let inputValue = "";
-  if (query !== null || query) {
-    inputValue = query;
-  } else if (property) {
-    inputValue = `${property.ADDRESS1} ${property.STNNAME}`;
-  }
+  useEffect(() => {
+    console.log("selected", property);
+  }, [property]);
 
-  const position = [property.Y || 42.36, property.X || -71.059];
+  const connectedProperties = useMemo(() => {
+    if (!activeField) {
+      return property ? [property] : [];
+    }
+    return properties.filter((p) => p[activeField] === property[activeField]);
+  }, [property, activeField, properties]);
+
+  const filterActive = activeField && property;
+  const shownProperties = filterActive ? connectedProperties : properties;
+
+  const updateField = (v) => {
+    console.log("change", activeField, v);
+    if (activeField === v) {
+      setActiveField(undefined);
+    } else {
+      setActiveField(v);
+    }
+  };
 
   return (
     <div>
       <div className="columns">
         <div className="column is-full map-container">
           <div className="box-overlay">
-            <b>Search for a property:</b>
+            {/* <b>Search for a property:</b>
             <input
               onChange={(e) => setQuery(e.target.value)}
               value={inputValue}
               className="input is-primary"
-            />
+            /> */}
+            <Button
+              onClick={fetchProperties}
+              className="standard-btn"
+              disabled={loading}
+              type="primary"
+            >
+              Refresh
+            </Button>
             <br />
-            {results.slice(0, 5).map((result, i) => {
-              const { item } = result;
-              return (
-                <div
-                  key={i}
-                  onClick={() => addProperty(item)}
-                  className="result-box"
-                >
-                  {i + 1}: {getPropertyName(item)}
-                </div>
-              );
-            })}
-            {properties.length > 0 && (
+            {}
+            {!properties && (
               <div>
+                <h3>No properties found.</h3>
+                <p>Upload or refresh the map view to discover properties.</p>
+              </div>
+            )}
+            {properties && properties.length > 0 && (
+              <div>
+                {!property && <h3>Select a property to begin:</h3>}
+                {property && <h3>Selected property:</h3>}
+              </div>
+            )}
+
+            {property && (
+              <div>
+                <PropertyView property={property} />
                 <div>
-                  <div>
-                    <br />
-                    <b>Last Property:</b>
-                    <br />
-                    {property.X} {property.Y}
-                    <p>{property.STNNAME}</p>
-                    <p>{property.ADDRESS1}</p>
-                  </div>
+                  <Radio.Group
+                    // onChange={(e) => updateField(e.target.value)}
+                    value={activeField}
+                  >
+                    {FILTER_FIELDS.map((f, i) => {
+                      return (
+                        <Radio.Button
+                          key={i}
+                          value={f}
+                          onClick={() => updateField(f)}
+                        >
+                          {f}
+                        </Radio.Button>
+                      );
+                    })}
+                  </Radio.Group>
+                  {activeField && (
+                    <p className="success">
+                      <br />
+                      Showing {connectedProperties.length} properties with
+                      matching {activeField} ({property[activeField]})
+                    </p>
+                  )}
                   <hr />
-                  <hr />
-                  <div>
-                    <b>Purchase Ticket</b>
-                  </div>
-                  {!requesting && (
+
+                  <Button
+                    onClick={fetchPrediction}
+                    className="standard-btn"
+                    disabled={loading}
+                    type="secondary"
+                  >
+                    Get Prediction
+                  </Button>
+                  <br />
+                  {result && result.prediction && (
                     <span>
-                      <button
-                        className="btn is-primary"
-                        onClick={getPriceForRoute}
-                        disabled={loading}
-                      >
-                        Request Price
-                      </button>
-                      &nbsp;
+                      <b>{result.prediction}</b>
                     </span>
                   )}
-                  <button
-                    className="btn is-primary"
-                    onClick={clearProperties}
-                    disabled={loading}
-                  >
-                    Clear Route
-                  </button>
                 </div>
               </div>
             )}
-            {loading && <p>Transaction in progress...</p>}
           </div>
           <MapContainer
             className="leaflet-container"
@@ -148,26 +211,59 @@ export default function PropertyMap() {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {properties.map((s, i) => (
-              <Marker position={getLatLng(s)} key={i}>
-                <Popup>
-                  <b>STATION (stop {i + 1})</b>
-                  <br />
-                  {JSON.stringify(getLatLng(s))}
-                  <br />
-                  {s.STNNAME}
-                  <br />
-                  {s.ADDRESS1}
-                </Popup>
-              </Marker>
-            ))}
-            {properties.map((s, i) => (
+
+            {shownProperties.map((s, i) => {
+              const active = s.address === property?.address;
+              const fieldMatch =
+                filterActive && s[activeField] === property[activeField];
+              const selected = active || fieldMatch;
+              return (
+                <Marker
+                  // icon={selected ? greenIcon : grayIcon}
+                  position={getLatLng(s)}
+                  key={i}
+                  eventHandlers={{
+                    click: (e) => {
+                      console.log("select", s);
+                      if (property && !active) {
+                        // Set compared.
+                      }
+                    },
+                  }}
+                >
+                  <Popup>
+                    <PropertyView property={s} />
+                    {!active && (
+                      <Button
+                        size="small"
+                        type="primary"
+                        className="standard-btn"
+                        onClick={() => setProperty(s)}
+                      >
+                        Mark active
+                      </Button>
+                    )}
+                  </Popup>
+                </Marker>
+              );
+            })}
+
+            {connectedProperties.map((p, i) => {
+              return (
+                <Polyline
+                  pathOptions={lineOptions}
+                  positions={[getLatLng(property), getLatLng(p)]}
+                  key={i}
+                />
+              );
+            })}
+            {/* {properties.map((s, i) => (
               <Polyline
                 pathOptions={lineOptions}
                 positions={properties.map(getLatLng)}
                 key={i}
               />
-            ))}
+            ))} */}
           </MapContainer>
         </div>
       </div>

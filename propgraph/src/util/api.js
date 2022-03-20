@@ -1,9 +1,9 @@
 import axios from "axios";
-const BASE_URL = "localhost:8000";
+const BASE_URL = "http://localhost:8000";
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 3000,
+  timeout: 10000,
   headers: {},
 });
 
@@ -15,6 +15,6 @@ export const uploadProperties = (body) => {
   return instance.post("/upload", body);
 };
 
-export const predictProperty = (body) => {
+export const getPrediction = (body) => {
   return instance.post("/predict", body);
 };
