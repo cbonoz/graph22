@@ -10,7 +10,12 @@ import {
 } from "react-leaflet";
 import { formatMoney, getAverage } from "../util";
 
-import { getPrediction, getProperties } from "../util/api";
+import {
+  getPrediction,
+  getProperties,
+  markComparable,
+  postComparable,
+} from "../util/api";
 import { FILTER_FIELDS, grayIcon, greenIcon } from "../util/constants";
 
 import "./PropertyMap.css";
@@ -29,6 +34,7 @@ export default function PropertyMap() {
   const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState([]);
   const [property, setProperty] = useState(); // active property.
+  const [comparable, setComparable] = useState();
   const [error, setError] = useState("");
   const [map, setMap] = useState(null);
 
@@ -83,6 +89,7 @@ export default function PropertyMap() {
 
   useEffect(() => {
     setResult(undefined);
+    setComparable(undefined);
   }, [property]);
 
   // let inputValue = "";
@@ -114,6 +121,15 @@ export default function PropertyMap() {
       setActiveField(undefined);
     } else {
       setActiveField(v);
+    }
+  };
+
+  const markComparable = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await postComparable({});
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -190,8 +206,17 @@ export default function PropertyMap() {
                   </Button>
                   <br />
                   {result && result.prediction && (
+                    <div>
+                      <b>{result.prediction}</b> (based on {activeField})
+                    </div>
+                  )}
+                  {comparable && (
                     <span>
-                      <b>{result.prediction}</b>
+                      <b>{comparable.address}</b>
+                      <br />
+                      <a href="#" onClick={markComparable}>
+                        Mark comparable
+                      </a>
                     </span>
                   )}
                 </div>
@@ -227,6 +252,7 @@ export default function PropertyMap() {
                       console.log("select", s);
                       if (property && !active) {
                         // Set compared.
+                        setComparable(s);
                       }
                     },
                   }}

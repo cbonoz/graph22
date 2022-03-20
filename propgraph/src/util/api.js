@@ -18,3 +18,7 @@ export const uploadProperties = (body) => {
 export const getPrediction = (body) => {
   return instance.post("/predict", body);
 };
+
+export const postComparable = (body) => {
+    return instance.post("/mark-comparable", body);
+  };
