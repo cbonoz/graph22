@@ -8,6 +8,7 @@ import UploadPage from "./components/UploadPage";
 import logo from "./assets/logo.png";
 import "antd/dist/antd.css";
 import "./App.css";
+import About from "./components/About";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -28,12 +29,16 @@ function App() {
             <Link to="/upload">
               <Menu.Item key="2">Upload</Menu.Item>
             </Link>
+            <Link to="/about">
+              <Menu.Item key="3">About</Menu.Item>
+            </Link>
           </Menu>
         </Header>
         <Content>
           <Routes>
             <Route path="/" element={<PropertyMap />} />
             <Route path="/upload" element={<UploadPage />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </Content>
         <Footer>

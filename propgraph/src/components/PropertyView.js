@@ -17,7 +17,7 @@ function PropertyView({ property }) {
       {formatMoney(s.price)}
       {s.url && (
         <span>
-          <br />
+          &nbsp;
           <a href={s.url} target="_blank">
             View
           </a>

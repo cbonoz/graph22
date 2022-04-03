@@ -63,14 +63,40 @@ State any dependencies and their versions needed to be installed to test this pr
 
 ## Installation
 
-Please give detailed instructions on installing, configuring, and running the project so judges can fully replicate and assess it.
+Clone this repo and follow the steps below for the backend and frontend configuration locally.
 
-This can include:
+### Structure
+`./propgraph`: Client-side code.
+`./server`: Jupyter notebook to configure the graph DB and backend server code.
+`./data`: Example property data.
+`./img`: Example screenshots of the application.
 
-1. Clone repository
-2. Install dependencies
-3. Access data
-4. Steps to build/run project
+#### Backend
+
+1. Set up a tigergraph cloud instance at tgcloud.io, set the credentials to access that instance via the following environment variables.
+
+<pre>
+    TIGER_HOST={YOUR_TIGERGRAPH_HOST}
+    TIGER_USER={YOUR_TIGERGRAPH_USER}
+    TIGER_PW={YOUR_TIGERGRAPH_PASSWORD}
+    TIGER_TOKEN={YOU_TIGERGRAPH_TOKEN} # optional, fetched at runtime if unset.
+</pre>
+
+2. To bootstrap base/empty graph for PropGraph, run a jupyter notebook from the `./server` directory and open `graphsetup.ipynb`. Install dependencies in first cell and run all cells below.
+3. `chmod 755 run.sh`
+3. Run `./run.sh` 
+
+The server should now be running on port 8000.
+
+#### Frontend
+
+From the `./propgraph` folder:
+<pre>
+yarn
+yarn start
+</pre>
+
+The PropGraph frontend should now be running on port 3000.
 
 ## Known Issues and Future Improvements
 

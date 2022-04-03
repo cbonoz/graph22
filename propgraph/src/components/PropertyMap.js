@@ -92,6 +92,10 @@ export default function PropertyMap() {
     setComparable(undefined);
   }, [property]);
 
+  useEffect(() => {
+    setResult(undefined);
+  }, [activeField, comparable]);
+
   // let inputValue = "";
   // if (query !== null || query) {
   //   inputValue = query;
@@ -126,10 +130,26 @@ export default function PropertyMap() {
 
   const markComparable = async (e) => {
     e.preventDefault();
+    if (!property.mls_id) {
+      // Requires mls_id indexed.
+      alert(
+        "Unable to mark as comparable, could not find mls id. Please try another property."
+      );
+      return;
+    }
+    setLoading(true);
+    const body = {
+      id1: property.mls_id,
+      id2: comparable.mls_id,
+    };
     try {
-      const data = await postComparable({});
+      const data = await postComparable(body);
+      alert("Successfully marked as comparable properties.");
     } catch (e) {
       console.error(e);
+      alert("Unable to mark as comparable: " + e.toString());
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -154,7 +174,7 @@ export default function PropertyMap() {
             </Button>
             <br />
             {}
-            {!properties && (
+            {(!properties || properties.length === 0) && (
               <div>
                 <h3>No properties found.</h3>
                 <p>Upload or refresh the map view to discover properties.</p>
@@ -170,6 +190,7 @@ export default function PropertyMap() {
             {property && (
               <div>
                 <PropertyView property={property} />
+                <br />
                 <div>
                   <Radio.Group
                     // onChange={(e) => updateField(e.target.value)}
@@ -194,7 +215,6 @@ export default function PropertyMap() {
                       matching {activeField} ({property[activeField]})
                     </p>
                   )}
-                  <hr />
 
                   <Button
                     onClick={fetchPrediction}
@@ -212,6 +232,7 @@ export default function PropertyMap() {
                   )}
                   {comparable && (
                     <span>
+                      <hr />
                       <b>{comparable.address}</b>
                       <br />
                       <a href="#" onClick={markComparable}>

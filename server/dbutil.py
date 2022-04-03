@@ -1,4 +1,5 @@
 from curses.panel import bottom_panel
+from datetime import datetime
 import os
 import pyTigerGraph as tg
 import json
@@ -9,16 +10,19 @@ TIGER_HOST = os.getenv('TIGER_HOST', '001150f0ce4e4c6980f2c7c1669a26f4.i.tgcloud
 TIGER_USER = os.getenv('TIGER_USER', 'tigergraph')
 TIGER_TOKEN = os.getenv('TIGER_TOKEN')
 print('params', TIGER_HOST, TIGER_PW, TIGER_USER, TIGER_TOKEN)
-
 conn = tg.TigerGraphConnection(host=TIGER_HOST, graphname="propgraph", username=TIGER_USER, password=TIGER_PW, apiToken=TIGER_TOKEN)
+
 secret = conn.createSecret()
+print(secret)
 conn.getToken(secret=secret)
+print('fetched token', conn.apiToken[:4] + "**")
 
 # https://github.com/pyTigerGraph/pyTigerGraph/blob/master/examples/GSQL101%20-%20PyTigerGraph.ipynb
 
 
 def mark_comparable(mls1, mls2):
-    comparables = [(mls1, mls2, {'created_at': None})]
+    comparables = [(mls1, mls2, {'created_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S")})]
+    print('mark comparable', comparables)
     conn.upsertEdges(
         sourceVertexType='property', 
         edgeType='comparable', 
@@ -45,7 +49,8 @@ def get_properties(bottom_left, top_right, match_field=None, match_value=None):
 
     props = json.loads(conn.gsql(query))
     print('query', query, props)
-    return [p['attributes'] for p in props]
+    results = [{'mls_id': p['v_id'], **p['attributes']} for p in props]
+    return results
 
 
 def insert_properties(properties):

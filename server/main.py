@@ -32,9 +32,8 @@ def upload_properties(data: dict):
     return insert_properties(properties=props)
 
 @app.post("/mark-comparable")
-def mark_comparable(data: dict):
+def post_comparable(data: dict):
     check_keys_in_object(['id1', 'id2'], data)
-    print('mark', data)
     return mark_comparable(data['id1'], data['id2'])
 
 @app.post("/fetch")
