@@ -11,6 +11,8 @@ PropGraph: A graph database comparable model for real estate.
 PropGraph: A property graph database.
  -->
 
+Intro slides: https://docs.google.com/presentation/d/1UGDiIgigPEodtkFg_F-mBde0eaogOYEyHCJ-S14rk3M/edit?usp=sharing
+
 **Description**:
 
 Find undervalued and comparable properties using graph-based relationships powered on TigerGraph.
@@ -66,6 +68,7 @@ State any dependencies and their versions needed to be installed to test this pr
 Clone this repo and follow the steps below for the backend and frontend configuration locally.
 
 ### Structure
+
 `./propgraph`: Client-side code.
 `./server`: Jupyter notebook to configure the graph DB and backend server code.
 `./data`: Example property data.
@@ -84,13 +87,14 @@ Clone this repo and follow the steps below for the backend and frontend configur
 
 2. To bootstrap base/empty graph for PropGraph, run a jupyter notebook from the `./server` directory and open `graphsetup.ipynb`. Install dependencies in first cell and run all cells below.
 3. `chmod 755 run.sh`
-3. Run `./run.sh` 
+4. Run `./run.sh`
 
 The server should now be running on port 8000.
 
 #### Frontend
 
 From the `./propgraph` folder:
+
 <pre>
 yarn
 yarn start
