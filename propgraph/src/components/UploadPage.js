@@ -46,7 +46,7 @@ function UploadPage(props) {
         >
           here
         </a>
-        &nbsp; and upload the CSV to the {APP_NAME} index.
+        &nbsp;and upload the CSV to the {APP_NAME} index.
       </p>
       <CSVReader onFileLoaded={upload} />
       {data && (

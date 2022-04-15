@@ -9,19 +9,22 @@ PropGraph: A graph database comparable model for real estate.
 
 <!--
 PropGraph: A property graph database.
+Template: https://github.com/TigerGraph-DevLabs/graph-for-all-submission-template
  -->
 
 Intro slides: https://docs.google.com/presentation/d/1UGDiIgigPEodtkFg_F-mBde0eaogOYEyHCJ-S14rk3M/edit?usp=sharing
 
 **Description**:
 
-Find undervalued and comparable properties using graph-based relationships powered on TigerGraph.
+PropGraph: Find undervalued and comparable properties using graph-based relationships powered on TigerGraph.
 
-With real estate at a recent all time demand high, the need for determining valuations effectively is important as ever. Often comparables for real estate valuation are derived at the discretion of the real estate agent, or simply based off the zestimate or redfin estimate for a property. While these can all be used as reference points, you may find that th
+With real estate at a recent all time demand high, the need for determining valuations effectively is important as ever. Often comparables for real estate valuation are derived at the discretion of the real estate agent, or simply based off the zestimate or redfin estimate for a property.
 
 These methods can also be extremely opaque - with little to no visibility into the exact parameters that influence the price.
 
-PropGraph provides a graph based solution that allows querying a given property and finding the relationships against recently sold properties.
+When an agent picks comparables, often this goes one layer deep - ex: the property is compared to three adjacent properties.
+
+PropGraph provides a graph based solution that allows querying a given property and finding deeper relationships against recently sold properties. With PropGraph, you can take many 1-layer graphs (ex: one agent doing a comparable on a property) and go N layers deep instead by mapping across all comparables shared by multiple agents. With this strategy you can compare a property in Boston to a property that recently sold in the UK for example via transitive graph.
 
 Key graph elements:
 
@@ -35,29 +38,33 @@ Standard quantitative fields:
 
 - Relationships between different property keywords.
 - Find corresponding properties based on graph relationships matching multiple criteria simultaneously.
-
-Wanted to use a graph databases to create a model for valuation that's understandable
-
 - Helps reduce bias in real estate pricing.
 - Ingests and graphs data through several mainstream real estate websites, including Redfin, Zillow, and Trulia.
-- Creates an AI model in real time and serves it.
+- Creates a valuation and visualization model in real time and serves it to the front end application.
 
-Explain what your project is trying to accomplish and how you utilized graph technology to achieve those goals.
-Describe how your submission is relevant to the problem statement and why it is impactful to the world. Remember to link your submission video here.
+- **Data**:
+  Example dataset in `./data/sample.csv`.
+  More could be exported in basic searches from Redfin (redfin.com).
 
-Tell us how your entry was the most...
+- **Technology Stack**:
+  ReactJS
+  Python
+  pyTigerGraph
 
-- Impactful in solving a real world problem
-- Innovative use case of graph
-- Ambitious and complex graph
-- Applicable graph solution
+- **Visuals**:
 
-Other additions:
-
-- **Data**: Give context for the dataset used and give full access to judges if publicly available or metadata otherwise.
-- **Technology Stack**: Describe technologies and programming languages used.
-- **Visuals**: Feel free to include other images or videos to better demonstrate your work.
-- Link websites or applications if needed to demonstrate your work.
+Map view of uploaded properties
+<img src='./img/home.png' width=800/>
+Upload page for submitting property data to database.
+<img src='./img/upload.png' width=800/>
+Network page for visualizing related properties
+<img src='./img/network.png' width=800/>
+Calculating comparables based on in-view properties.
+<img src='./img/comparable.png' width=800/>
+Graph creation
+<img src='./img/graph.png' width=800/>
+Comparable network query
+<img src='./img/query.png' width=800/>
 
 ## Dependencies
 
@@ -91,6 +98,14 @@ Clone this repo and follow the steps below for the backend and frontend configur
 
 The server should now be running on port 8000.
 
+### Bootstrap the Database
+
+You'll want jupyter to run the DB-setup commands.
+From the `./server` folder:
+`jupyter-notebook` (or lab).
+
+Run the commands to the end; if successful, the graph should be a created and a few sample queries should execute.
+
 #### Frontend
 
 From the `./propgraph` folder:
@@ -102,23 +117,18 @@ yarn start
 
 The PropGraph frontend should now be running on port 3000.
 
+You'll want to load up the DB with some properties from the 'Upload' page of the app to begin using PropGraph with your Tigergraph database.
+
 ## Known Issues and Future Improvements
 
-Explain known liminations within the project and potential next steps.
+- Include in-app visualization for comparable graph (currently capture-able in the notebook for further/future analysis)
 
 ## Reflections
 
-Review the steps you took to create this project and the resources you were provided. Feel free to indiciate room for improvement and general reflections.
+Tigergraph has a unique value prop to do 'Nth' comparable level queries against properties to yield deeper insight than what could easily be done with a traditional database.
 
 ## References
 
-Please give credit to other projects, videos, talks, people, and other sources that have inspired and influenced your project.
-
-### Graph DB resources:
-
-- https://tgcloud.io/app/solutions
-
-### Dev Notes
-
+- Tigergraph solutions: https://tgcloud.io/app/solutions
 - More credits: https://docs.google.com/forms/d/e/1FAIpQLSdoK6wIj4iFJtzeFWFl4yPQK6h8TzmQMsYnG6upZiM1A8W5VQ/viewform
 - Notebook: https://github.com/pyTigerGraph/pyTigerGraph/blob/master/examples/GSQL101%20-%20PyTigerGraph.ipynb

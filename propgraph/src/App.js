@@ -6,7 +6,7 @@ import PropertyMap from "./components/PropertyMap";
 import UploadPage from "./components/UploadPage";
 
 import logo from "./assets/logo.png";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import "./App.css";
 import About from "./components/About";
 
