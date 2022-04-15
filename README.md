@@ -2,9 +2,14 @@
     <img src="./img/logo.png" width=600/>
 </p>
 
-\*\*Contributors and Contact Information:
+## Contributors and Contact Information:
 
-\*\*Problem Statement addressed:
+Chris Buonocore
+linkedin.com/in/chrisbuonocore
+chrisdistrict@gmail.com
+
+## Problem Statement addressed:
+
 PropGraph: A graph database comparable model for real estate.
 
 <!--
@@ -42,28 +47,30 @@ Standard quantitative fields:
 - Ingests and graphs data through several mainstream real estate websites, including Redfin, Zillow, and Trulia.
 - Creates a valuation and visualization model in real time and serves it to the front end application.
 
-- **Data**:
-  Example dataset in `./data/sample.csv`.
-  More could be exported in basic searches from Redfin (redfin.com).
+## Data
 
-- **Technology Stack**:
-  ReactJS
-  Python
-  pyTigerGraph
+Example dataset in `./data/sample.csv`.
+More could be exported in basic searches from Redfin (redfin.com).
 
-- **Visuals**:
+## Technology Stack\*\*:
 
-Map view of uploaded properties
+ReactJS
+Python
+pyTigerGraph
+
+## Visuals
+
+<p>Map view of uploaded properties</p>
 <img src='./img/home.png' width=800/>
-Upload page for submitting property data to database.
+<p>Upload page for submitting property data to database.</p>
 <img src='./img/upload.png' width=800/>
-Network page for visualizing related properties
+<p>Network page for visualizing related properties</p>
 <img src='./img/network.png' width=800/>
-Calculating comparables based on in-view properties.
+<p>Calculating comparables based on in-view properties.</p>
 <img src='./img/comparable.png' width=800/>
-Graph creation
+<p>Graph creation</p>
 <img src='./img/graph.png' width=800/>
-Comparable network query
+<p>Comparable network query</p>
 <img src='./img/query.png' width=800/>
 
 ## Dependencies
