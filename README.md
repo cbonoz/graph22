@@ -52,11 +52,11 @@ Standard quantitative fields:
 Example dataset in `./data/sample.csv`.
 More could be exported in basic searches from Redfin (redfin.com).
 
-## Technology Stack\*\*:
+## Technology Stack:
 
-ReactJS
-Python
-pyTigerGraph
+- ReactJS
+- Python
+- pyTigerGraph
 
 ## Visuals
 
