@@ -4,13 +4,15 @@
 
 ## Contributors and Contact Information:
 
-Chris Buonocore
-linkedin.com/in/chrisbuonocore
+Chris Buonocore<br/>
+linkedin.com/in/chrisbuonocore<br/>
 chrisdistrict@gmail.com
 
 ## Problem Statement addressed:
 
 PropGraph: A graph database comparable model for real estate.
+
+Going after the TigerGraph Graph For All Million Dollar Challenge.
 
 <!--
 PropGraph: A property graph database.
