@@ -8,22 +8,29 @@ Chris Buonocore<br/>
 linkedin.com/in/chrisbuonocore<br/>
 chrisdistrict@gmail.com
 
+
 ## Problem Statement addressed:
 
-PropGraph: A graph database comparable model for real estate.
+PropGraph: Find undervalued and comparable properties using graph-based relationships powered on TigerGraph.
 
 Going after the TigerGraph Graph For All Million Dollar Challenge.
+
+### Presentation 
+
+Demo: https://youtu.be/iJ6QIgsZwts
+
+Slides: https://docs.google.com/presentation/d/1UGDiIgigPEodtkFg_F-mBde0eaogOYEyHCJ-S14rk3M/edit?usp=sharing
+
 
 <!--
 PropGraph: A property graph database.
 Template: https://github.com/TigerGraph-DevLabs/graph-for-all-submission-template
  -->
 
-Intro slides: https://docs.google.com/presentation/d/1UGDiIgigPEodtkFg_F-mBde0eaogOYEyHCJ-S14rk3M/edit?usp=sharing
+
 
 **Description**:
 
-PropGraph: Find undervalued and comparable properties using graph-based relationships powered on TigerGraph.
 
 With real estate at a recent all time demand high, the need for determining valuations effectively is important as ever. Often comparables for real estate valuation are derived at the discretion of the real estate agent, or simply based off the zestimate or redfin estimate for a property.
 
