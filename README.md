@@ -73,6 +73,8 @@ More could be exported in basic searches from Redfin (redfin.com).
 <img src='./img/home.png' width=800/>
 <p>Upload page for submitting property data to database.</p>
 <img src='./img/upload.png' width=800/>
+<p>Example csv download used for data hydration.</p>
+<img src='./img/data.png' width=800/>
 <p>Network page for visualizing related properties</p>
 <img src='./img/network.png' width=800/>
 <p>Calculating comparables based on in-view properties.</p>
