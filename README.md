@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src="./img/logo.png" width=600/>
+    <img src="./img/logo.png" width=400/>
 </p>
 
 ## Contributors and Contact Information:
@@ -38,7 +38,7 @@ These methods can also be extremely opaque - with little to no visibility into t
 
 When an agent picks comparables, often this goes one layer deep - ex: the property is compared to three adjacent properties.
 
-PropGraph provides a graph based solution that allows querying a given property and finding deeper relationships against recently sold properties. With PropGraph, you can take many 1-layer graphs (ex: one agent doing a comparable on a property) and go N layers deep instead by mapping across all comparables shared by multiple agents. With this strategy you can compare a property in Boston to a property that recently sold in the UK for example via transitive graph.
+PropGraph provides a graph based solution that allows querying a given property and finding deeper relationships against recently sold properties. With PropGraph, you can take many 1-layer graphs (ex: one agent doing a comparable on a property) and go N layers deep instead by mapping across all comparables shared by multiple agents. With this strategy you can compare a property in Boston to a property that recently sold in the UK for example via a transitive graph  that previously wasn't visible.
 
 Key graph elements:
 
