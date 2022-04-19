@@ -138,6 +138,7 @@ You'll want to load up the DB with some properties from the 'Upload' page of the
 ## Known Issues and Future Improvements
 
 - Include in-app visualization for comparable graph (currently capture-able in the notebook for further/future analysis)
+- In-app search
 
 ## Reflections
 
