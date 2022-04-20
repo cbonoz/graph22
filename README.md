@@ -79,6 +79,8 @@ More could be exported in basic searches from Redfin (redfin.com).
 <img src='./img/network.png' width=800/>
 <p>Calculating comparables based on in-view properties.</p>
 <img src='./img/comparable.png' width=800/>
+<p>TG Cloud instance</p>
+<img src='./img/tgcloud.png' width=800/>
 <p>Graph creation</p>
 <img src='./img/graph.png' width=800/>
 <p>Comparable network query</p>
